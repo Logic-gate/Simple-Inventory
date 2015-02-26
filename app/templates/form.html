@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+{% block display_ %}
+{{display}}
+{% endblock %}
+{% block display_1 %}
+{{display1}}
+{% endblock %}
+{% block extra %}
+{{extra}}
+{% endblock %}
+{% block content %}
+
+<script>
+document.getElementById("uploadBtn").onchange = function () {
+    document.getElementById("take-picture").value = this.value;
+};
+</script>
+
+
+   
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+
+            <div class="col-lg-8 col-lg-offset-2">
+             
+<fieldset>
+
+<!-- Form Name -->
+<h1>Product</h1>
+
+<!-- Text input-->
+<form name='submit' class='form-horizontal' action="{{ url_for('submit_form') }}" method='post' enctype="multipart/form-data">
+                         {{ form.hidden_tag() }}
+<div class="form-group">
+  <label class="col-md-4 control-label" for="sku">SKU</label>
+  <div class="col-md-4">
+  {{ form.sku(class_="form-control input-md", value=sku_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="name">Name</label>  
+  <div class="col-md-4">
+   {{ form.name(class_="form-control input-md", value=name_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="weight">Weight</label>  
+  <div class="col-md-4">
+   {{ form.weight(class_="form-control input-md", value=weight_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="company">Company</label>  
+  <div class="col-md-4">
+   {{ form.company(class_="form-control input-md", value=company_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="stock_location">Stock Location</label>  
+  <div class="col-md-4">
+   {{ form.stock_location(class_="form-control input-md", value=stock_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="place_of_origin">Place Of Origin</label>  
+  <div class="col-md-4">
+   {{ form.place_of_origin(class_="form-control input-md", value=place_default)}}
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="qty">QTY</label>  
+  <div class="col-md-4">
+   {{ form.qty(class_="form-control input-md", value=qty_default)}}
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+<label class="col-md-4 control-label" > </label>  
+  <div class="col-md-4 fileUpload btn btn-primary">
+  <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+  <span>Upload</span>
+  <input id="take-picture" accept="image/*" type="file" name="file" class='upload'>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="submit"> </label>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-primary" >Submit</button>
+  </div>
+</div>
+
+<p id="error"></p>
+
+</fieldset>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <h3>
+        {% for message in messages %}
+            {{ message }}
+            <a href="{{ url_for('index', sku=sku) }}" style="color:red">{{display1}}</a>
+        {% endfor %}
+        </h3>
+      {% endif %}
+    {% endwith %}
+</form>
+
+            </div>
+        </div>
+    </section>
+<script src="static/base.js"></script>
+  {% endblock %}

@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+{% block display_ %}
+{{display}}
+{% endblock %}
+{% block display_1 %}
+{{display1}}
+{% endblock %}
+
+{% block content %}
+
+    <!-- Intro Header -->
+
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                    <h2>Summary</h2>
+                    <h2><p>All Products</p> {{number_of_products}}</h2>
+                    <h2><p>Warehouse Products</p>{{warehouse}}</h2>
+                    <h2><p>DropShipping Products</p>{{ds_products}}</h2>    
+                   
+  
+
+                    </div>
+                    <canvas id="buyers" width="600" height="400"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+       
+    </header>
+
+    <section id="about" class="container content-section text-center">
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+            <div id="products" style="color: red;">
+             <input class="search"  placeholder="Search"/>
+            
+              <ul class="list">
+              {% for name, origin_sku, com, qty, sku, image in product %}
+    <li>
+        
+                     <p><h2 class="name" style="font-size: 16px">{{ name }}</h2></p>
+                     <img src="/static/products/{{image}}" width='100px'>
+                    <h2><p class="origin" style="font-size: 15px">Origin SKU: {{origin_sku}}</p></h2>
+                    <h2><p class="company" style="font-size: 15px">Company: {{com}}</p></h2>
+                    <h2><p class="qty" style="font-size: 15px">Qty: {{qty}}</p></h2>
+                    <h2><a href="{{ url_for('index', sku=sku)}}" style="font-size: 15px; color: red">View</a></h2>
+                    <h2><a href="{{ url_for('quick', sku=sku)}}" style="font-size: 15px; color: red">Qty Edit</a></h2>
+                    
+    </li>
+    {% endfor %}
+  </ul>
+  </div>
+           
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <script>
+    var buyers = document.getElementById('buyers').getContext('2d');
+    
+  var data = [
+    {
+        value: {{warehouse}},
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Warehouse"
+    },
+    {
+        value: {{ds_products}},
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "DropShipping"
+    }
+
+];
+new Chart(buyers).Doughnut(data);
+</script>
+        {% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+{% block display_ %}
+{{display}}
+{% endblock %}
+{% block display_1 %}
+{{display1}}
+{% endblock %}
+
+{% block content %}
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                         <a href="{{ url_for('submit_form')}}"><h2>Add a product</h2>
+                         <a href="{{ url_for('view_products')}}"><h2>View Products</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+ <footer>
+
+    <div class="text-center">
+              <a style='font-size: 50px; color: red' href="https://github.com/Logic-gate/Simple-Inventory" target="_blank" class="fa fa-github-square"></a>
+             
+            </div>
+
+    </footer>
+    <!-- Download Section -->
+        {% endblock %}

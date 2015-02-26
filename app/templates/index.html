@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+{% block display_ %}
+{{display}}
+{% endblock %}
+{% block display_1 %}
+{{display1}}
+{% endblock %}
+{% block extra %}
+{{title}}
+{% endblock %}
+{% block content %}
+
+    <!-- Intro Header -->
+    <header class="intro" style="background: url('/static/products/{{product}}') no-repeat center scroll; background-color:white">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+        <h2><a href="{{ url_for('submit_form', sku=title)}}" style="color: red">EDIT</a></h2> 
+        <h2><a href="{{ url_for('quick', sku=title)}}" style="color: red">Qty EDIT</a></h2>
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2><p>NAME</p> {{p_name}}</h2>
+                <h2><p>STOCK LOCATION</p> {{stock_location}}</h2>
+                <h2><p>PLACE OF ORIGIN</p>{{display1}}</h2>
+                <h2><p>COMPANY</p>{{display}}</h2>
+                <h2><p>QTY</p>{{qty}}</h2>
+                <h2><p>WEIGHT</p>{{weight}}</h2>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+        {% endblock %}

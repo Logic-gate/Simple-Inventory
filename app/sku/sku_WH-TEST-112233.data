@@ -1,0 +1,14 @@
+{
+    "PRODUCTS": [
+        {
+            "SKU": "WH-TEST-112233", 
+            "STOCK_LOCATION": "3R-2S", 
+            "NAME": "TEST PRODUCT", 
+            "WEIGHT": "125g", 
+            "PLACE_OF_ORIGIN": "Planet Earth", 
+            "COMPANY": "TEST COMPANY", 
+            "IMAGE": "2014-06-03--1401813980_1024x768_scrot.png", 
+            "STOCK": "120"
+        }
+    ]
+}
