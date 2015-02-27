@@ -51,7 +51,10 @@ Image Path: `static/product/`
 
 ####ScreenShots
 Inventory
-![All](https://dl.dropboxusercontent.com/u/79143906/All.png)  
+![All](https://dl.dropboxusercontent.com/u/79143906/Screenshot%20-%2002272015%20-%2008%3A10%3A50%20PM.png)  
 Add A product:
 ![Add Product](https://dl.dropboxusercontent.com/u/79143906/add_product.png)
+Stats:
+![Stats](https://dl.dropboxusercontent.com/u/79143906/Screenshot%20-%2002272015%20-%2008%3A10%3A27%20PM.png)
+
 `
