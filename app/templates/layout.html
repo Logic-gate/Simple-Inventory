@@ -55,6 +55,9 @@
              <li>
              <a href='{{ url_for("submit_form")}}' style="color: red">Add A product</a>
              </li>
+             <li>
+             <a href='{{ url_for("stats")}}' style="color: red">Stats</a>
+             </li>
           
              </ul>
             </div>
@@ -85,7 +88,7 @@
  <script src="http://listjs.com/no-cdn/list.js"></script>
      <script type="text/javascript">
     var options = {
-  valueNames: [ 'name', 'origin', 'company', 'qty' ]
+  valueNames: [ 'name', 'origin', 'company', 'qty', 'orig_qty' ]
 };
 
 var userList = new List('products', options);</script>

@@ -395,30 +395,17 @@ body {
 }
 
 .list {
-  font-family:sans-serif;
-  margin:0;
-  padding:20px 0 0;
-
+  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #00a7e1;
 }
-.list > li {
-  display: block;
-  padding:10px;
+.tg-031e {
+ font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+ text-align: center;
+ 
 }
-.avatar {
-  max-width: 150px;
-}
-img {
-  max-width: 100%;
-}
-h3 {
-  font-size: 16px;
-  margin:0 0 0.3rem;
-  font-weight: normal;
-  font-weight:bold;
-
-}
-p {
-  margin:0;
+td {
+  padding:10px; 
+  border:solid 1px #eee;
 }
 
 input {
@@ -438,7 +425,7 @@ input:focus {
   display:inline-block;
   color:#fff;
   text-decoration: none;
-  
+  background-color: #28a8e0;
   height:30px;
 }
 .sort:hover {
@@ -449,6 +436,7 @@ input:focus {
   outline:none;
 }
 .sort:after {
+  display:inline-block;
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -467,7 +455,7 @@ input:focus {
   border-top: 5px solid #fff;
   content:"";
   position: relative;
-  top:13px;
+  top:4px;
   right:-5px;
 }
 .sort.desc:after {
@@ -478,6 +466,6 @@ input:focus {
   border-bottom: 5px solid #fff;
   content:"";
   position: relative;
-  top:-10px;
+  top:-4px;
   right:-5px;
 }

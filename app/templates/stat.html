@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+{% block display_ %}
+{{display}}
+{% endblock %}
+{% block display_1 %}
+{{display1}}
+{% endblock %}
+
+{% block content %}
+
+    <!-- Intro Header -->
+
+    <header class="intro">
+   
+       
+    </header>
+
+    <section id="about" class="container content-section text-center">
+         <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Locations</h2>
+                 <canvas id="locations" width="600" height="400"></canvas>
+                 <br><br>
+                  <h2>Places Of Origin</h2>
+                <canvas id="places" width="600" height="400"></canvas>
+                <br><br>
+                <h2>Stock Levels</h2>
+                <div style='float: left; border:solid 1px #ccc; width:50px; height: 50px; background-color:rgba(220,220,220,0.5);'><h2 style='font-size: 10px'>QTY</h2></div>
+                <div style='float: left; postision: relative; border:solid 1px #ccc; width:50px; height: 50px; background-color:rgba(151,187,205,0.5);'><h2 style='font-size: 10px'>O-QTY</h2></div>
+                <canvas id="all" width='900' height="500"></canvas>
+                <br><br>
+            </div>
+            </div>
+        
+    </section>
+
+    <!-- Download Section -->
+  
+    <script>
+    Colors = {};
+Colors.names = {
+    darkcyan: "#008b8b",
+    darkgrey: "#a9a9a9",
+    darkgreen: "#006400",
+    darkkhaki: "#bdb76b",
+    darkmagenta: "#8b008b",
+    darkolivegreen: "#556b2f",
+    darkorange: "#ff8c00",
+    darkorchid: "#9932cc",
+    darkred: "#8b0000",
+    darksalmon: "#e9967a",
+    darkviolet: "#9400d3",
+    cyanred: "#FF6e6",
+    grered: "#AA3939",
+    greygreen: "#226666",
+    olivegreen: "#7A9F35"
+};
+
+Colors.random = function() {
+    var result;
+    var count = 0;
+    for (var prop in this.names)
+        if (Math.random() < 1/++count)
+           result = prop;
+    return result;
+};
+
+    var pla = document.getElementById('places').getContext('2d');
+
+    var data = [
+       {% for key, value in places.iteritems() %}
+    {
+        value: {{ value }},
+        color:Colors.random(),
+        highlight: "#FF5A5E",
+        label: "{{ key }}"
+    },
+    {% endfor %}
+
+];
+
+    new Chart(pla).PolarArea(data);
+
+    </script>
+
+    <script>
+    var loc = document.getElementById('locations').getContext('2d');
+    
+  var data = [
+    {
+        value: {{warehouse}},
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Warehouse"
+    },
+    {
+        value: {{ds_products}},
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "DropShipping"
+    }
+
+];
+new Chart(loc).Doughnut(data);
+</script>
+
+<script>
+var all = document.getElementById('all').getContext('2d');
+var data = {
+    labels: {% autoescape false %}{{sku}}{% endautoescape %},
+    datasets: [
+        {
+            label: "QTY",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: {% autoescape false %}{{qty}}{% endautoescape %}
+        },
+        {
+            label: "Orig QTY",
+            fillColor: "rgba(151,187,205,0.5)",
+            strokeColor: "rgba(151,187,205,0.8)",
+            highlightFill: "rgba(151,187,205,0.75)",
+            highlightStroke: "rgba(151,187,205,1)",
+            data: {% autoescape false %}{{orig_qty}}{% endautoescape %}
+        }
+    ]
+};
+
+new Chart(all).Bar(data, {
+   barValueSpacing : 1}
+    );
+</script>
+        {% endblock %}

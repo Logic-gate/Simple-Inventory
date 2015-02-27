@@ -10,3 +10,4 @@ class product_submit(Form):
     stock_location = StringField('stock_location', validators=[DataRequired()])
     place_of_origin = StringField('place_of_origin', validators=[DataRequired()])
     qty = StringField('qty', validators=[DataRequired()])
+    orig_stock = StringField('orig_stock', validators=[DataRequired()])

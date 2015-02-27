@@ -16,18 +16,45 @@
 
     <header class="intro">
         <div class="intro-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                    <h2>Summary</h2>
-                    <h2><p>All Products</p> {{number_of_products}}</h2>
-                    <h2><p>Warehouse Products</p>{{warehouse}}</h2>
-                    <h2><p>DropShipping Products</p>{{ds_products}}</h2>    
-                   
-  
+             <section id="about" class="container content-section text-center">
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+            <div id="products" style="color: red;">
+             <input class="search"  placeholder="Search"/>
+            
+<table>
+<tbody class="list">
+  <tr>
+    <th class="tg-031e">Image</th>
+    <th class="tg-031e">Name</th>
+    <th class="tg-031e">Company</th>
+    <th class="tg-031e">Origin SKU</th>
+    <th class="tg-031e">QTY</th>
+  </tr>
+  {% for name, origin_sku, com, qty, sku, image, orig_qty in product %}
+
+  <tr>
+   <td> <img src="/static/products/{{image}}" width='100px'></td>
+    <td class="name">{{ name }}</td>
+    <td class="company">{{com}}</td>
+    <td class="origin">{{origin_sku}}</td>
+    <td class="qty">{{qty}}</td>
+    <td class="orig_qty">{{orig_qty}}</td>
+    <td class=""><a href="{{ url_for('index', sku=sku)}}" style="font-size: 15px; color: red">View</a></td>
+    <td class=""><a href="{{ url_for('quick', sku=sku)}}" style="font-size: 15px; color: red">Qty Edit</a></td>
+  </tr>
+     {% endfor %}
+     </tbody>
+</table>
+
+  </div>
+           
+            </div>
+        </div>
+    </section>
 
                     </div>
-                    <canvas id="buyers" width="600" height="400"></canvas>
                 </div>
 
             </div>
@@ -36,53 +63,6 @@
        
     </header>
 
-    <section id="about" class="container content-section text-center">
-
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-            <div id="products" style="color: red;">
-             <input class="search"  placeholder="Search"/>
-            
-              <ul class="list">
-              {% for name, origin_sku, com, qty, sku, image in product %}
-    <li>
-        
-                     <p><h2 class="name" style="font-size: 16px">{{ name }}</h2></p>
-                     <img src="/static/products/{{image}}" width='100px'>
-                    <h2><p class="origin" style="font-size: 15px">Origin SKU: {{origin_sku}}</p></h2>
-                    <h2><p class="company" style="font-size: 15px">Company: {{com}}</p></h2>
-                    <h2><p class="qty" style="font-size: 15px">Qty: {{qty}}</p></h2>
-                    <h2><a href="{{ url_for('index', sku=sku)}}" style="font-size: 15px; color: red">View</a></h2>
-                    <h2><a href="{{ url_for('quick', sku=sku)}}" style="font-size: 15px; color: red">Qty Edit</a></h2>
-                    
-    </li>
-    {% endfor %}
-  </ul>
-  </div>
-           
-            </div>
-        </div>
-    </section>
 
     <!-- Download Section -->
-    <script>
-    var buyers = document.getElementById('buyers').getContext('2d');
-    
-  var data = [
-    {
-        value: {{warehouse}},
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Warehouse"
-    },
-    {
-        value: {{ds_products}},
-        color: "#46BFBD",
-        highlight: "#5AD3D1",
-        label: "DropShipping"
-    }
-
-];
-new Chart(buyers).Doughnut(data);
-</script>
         {% endblock %}

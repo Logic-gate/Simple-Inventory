@@ -13,7 +13,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 
-def data(sku, name, stock_location, company, place_of_origin, weight, stock, product):
+def data(sku, name, stock_location, company, place_of_origin, weight, stock, product, orig_stock):
 	dict_ = {
     "PRODUCTS": [
         {
@@ -24,7 +24,8 @@ def data(sku, name, stock_location, company, place_of_origin, weight, stock, pro
             "PLACE_OF_ORIGIN": place_of_origin,
             "WEIGHT": weight,
             "STOCK": stock,
-            "IMAGE": product
+            "IMAGE": product,
+            "ORIGINAL_STOCK": orig_stock
         },
       
     ]
@@ -55,7 +56,7 @@ def submit_form():
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-				data(sku, name, stock_location, company, place_of_origin, weight, qty, filename)
+				data(sku, name, stock_location, company, place_of_origin, weight, qty, filename, qty)
 
 			flash('Saved')
 			return render_template('form.html', form=form, sku=sku, title=' ', display='Saved', display1=sku, extra=' ')
@@ -103,8 +104,8 @@ def quick():
 	a = open('app/sku/sku_'+str(sku_input)+'.data')
 	u = json.load(a)
 	if request.method == 'POST':
-		qty = request.form.get('qty', None)
-		
+		q = request.form.get('qty', None)
+		qty = int(u['PRODUCTS'][0]['STOCK']) - int(q)
 		sku = u['PRODUCTS'][0]['SKU']
 		name = u['PRODUCTS'][0]['NAME']
 		stock = u['PRODUCTS'][0]['STOCK_LOCATION']
@@ -112,7 +113,7 @@ def quick():
 		poo = u['PRODUCTS'][0]['PLACE_OF_ORIGIN']
 		w = u['PRODUCTS'][0]['WEIGHT']
 		product = u['PRODUCTS'][0]['IMAGE']
-		data(sku, name, stock, company, poo, w, qty, product)
+		data(sku, name, stock, company, poo, w, qty, product, u['PRODUCTS'][0]['STOCK'])
 		flash('Saved')
 		return render_template('quick.html', form=form, sku=sku, title=' ', display='Saved', display1=sku, extra=' ', sku_default=sku_input, name_default=name, image=product, qty_default=qty)
 
@@ -143,6 +144,7 @@ def view_products():
 	qty = []
 	skus = []
 	images = []
+	orig_qty = []
 	for (dirpath, dirnames, filenames) in os.walk(product_path):
 		f.extend(filenames)
 		break
@@ -167,15 +169,17 @@ def view_products():
 		stock_qty = u['PRODUCTS'][0]['STOCK']
 		sku = u['PRODUCTS'][0]['SKU']
 		image = u['PRODUCTS'][0]['IMAGE']
+		orig_qty_level = u['PRODUCTS'][0]['ORIGINAL_STOCK']
 		name_of_product.append(name)
 		company.append(company_name)
 		qty.append(stock_qty)
 		skus.append(sku)
 		images.append(image)
+		orig_qty.append(orig_qty_level)
 
 
 	return render_template('all.html', title='All Products', display='Showing All Products', 
-		product=zip(name_of_product, origin_sku, company, qty, skus, images), number_of_products=all_products, warehouse=warehouse_products, ds_products=drop_shipping_products)
+		product=zip(name_of_product, origin_sku, company, qty, skus, images, orig_qty), number_of_products=all_products, warehouse=warehouse_products, ds_products=drop_shipping_products)
 
  
 
@@ -210,8 +214,9 @@ def index():
 					w = u['PRODUCTS'][0]['WEIGHT']
 					stock_qty = u['PRODUCTS'][0]['STOCK']
 					product = u['PRODUCTS'][0]['IMAGE']
+					orig_qty = u['PRODUCTS'][0]['ORIGINAL_STOCK']
 					return render_template('index.html', title=sku, display=company, p_name=name, stock_location=stock, display1=poo, weight=w, qty=stock_qty,
-														 product=product)
+														 product=product, orig_=orig_qty)
 			except u['PRODUCTS'][0]['SKU'] != sku:
 					return 'NO SKU FOUND'
 						#return u['PRODUCTS'][0]['SKU']
@@ -220,3 +225,48 @@ def index():
 		else:
 			return 'Could not find SKU'
 
+@app.route('/stat')
+def stats():
+	places = []
+	f = []
+	places_count = {}
+	getPlaces = []
+	location = []
+	skus = []
+	qty = []
+	orig_qty = []
+	product_path = 'app/sku/'
+	#Get all unique places
+	for (dirpath, dirname, filnames) in os.walk(product_path):
+		f.extend(filnames)
+		for ii in filnames:
+			print ii
+			i = open(product_path+ii)
+			u=json.load(i)
+			skus.append(str(u['PRODUCTS'][0]['SKU']))
+			places.append(u['PRODUCTS'][0]['PLACE_OF_ORIGIN'])
+			qty.append(int(u['PRODUCTS'][0]['STOCK']))
+			orig_qty.append(int(u['PRODUCTS'][0]['ORIGINAL_STOCK']))
+			i.close()
+	for dele in f:
+		params = re.split('\W', dele)
+		location.append(params[0])
+	for place in places:
+		if place not in getPlaces:
+			getPlaces.append(place)
+
+	for o in getPlaces:
+		places_count[o] = places.count(o)
+
+	warehouse_products = len([ii for ii, s in enumerate(location) if 'sku_WH' in s])
+	drop_shipping_products = len([ii for ii, s in enumerate(location) if 'sku_DS' in s]) 
+	all_products = len(f)
+
+	return render_template('stat.html', title='Stats', display='Showing All Products', number_of_products=all_products, 
+		warehouse=warehouse_products, ds_products=drop_shipping_products, places=places_count, sku=str(skus), qty=str(qty), orig_qty=str(orig_qty))
+
+
+
+
+
+    
