@@ -34,7 +34,8 @@ Data Format: `JSON`
             "PLACE_OF_ORIGIN": "Planet Earth", 
             "COMPANY": "TEST COMPANY", 
             "IMAGE": "2014-06-03--1401813980_1024x768_scrot.png", 
-            "STOCK": "120"
+            "STOCK": "120",
+            "ORIGINAL_STOCK": "121"
         }
     ]
     }
